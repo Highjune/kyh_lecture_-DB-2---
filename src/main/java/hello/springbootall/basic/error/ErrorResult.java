@@ -1,4 +1,4 @@
-package hello.springbootall.basic.exception;
+package hello.springbootall.basic.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
