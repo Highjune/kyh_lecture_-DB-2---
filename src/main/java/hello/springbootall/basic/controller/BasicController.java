@@ -1,25 +1,29 @@
 package hello.springbootall.basic.controller;
 
+import hello.springbootall.basic.dto.RequestDto;
+import hello.springbootall.basic.service.BasicService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import javax.validation.Valid;
+
+
 @Slf4j
-@RequestMapping(value = "/basic")
+@RestController
+@RequestMapping(value = "/basic/v1")
+@RequiredArgsConstructor
 public class BasicController {
 
-    @GetMapping("/hi")
-    public String mainPage() {
-        return "hi";
-    }
+    private final BasicService basicService;
 
-    @GetMapping("/hi2")
-    public ResponseEntity basicFucntion() {
+    @PostMapping("/delivery")
+    public ResponseEntity doSomething(@Valid @RequestBody RequestDto.Member member) {
+        this.basicService.doSomething(member);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
 }
