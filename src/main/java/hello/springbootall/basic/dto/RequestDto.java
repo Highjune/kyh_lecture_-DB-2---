@@ -1,5 +1,6 @@
 package hello.springbootall.basic.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -7,11 +8,12 @@ import javax.validation.constraints.NotNull;
 public class RequestDto {
 
     @Data
+    @Builder
     public static class Member {
-        @NotNull
+        @NotNull(message = "이름 정보는 필수입니다.")
         private String name;
-        @NotNull
-        private int age;
+        @NotNull(message = "나이 정보는 필수입니다.")
+        private Integer age;
     }
 
 }
