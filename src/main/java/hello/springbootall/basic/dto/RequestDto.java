@@ -16,4 +16,13 @@ public class RequestDto {
         private Integer age;
     }
 
+    @Data
+    @Builder
+    public static class Delivery {
+        @NotNull(message = "가격 정보는 필수입니다.")
+        private String price;
+        @NotNull(message = "수량 정보는 필수입니다.")
+        private String quantity;
+    }
+
 }
