@@ -24,6 +24,24 @@ public class BasicService {
     }
 
     public void doSomething2() {
-
+        System.out.println("here");
     }
+
+    public void checkValidation (Object object) {
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        Set<ConstraintViolation<Object>> violations = validator.validate(object);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (ConstraintViolation<Object> violation : violations) {
+            stringBuilder.append(String.format("%s : %s \r\n", violation.getInvalidValue(), violation.getMessage()));
+        }
+
+        if (violations.size() > 0) {
+            log.error(stringBuilder.toString());
+            throw new CommonException(Errors.GENERAL_WRONG_PARAM);
+        }
+    }
+
 }
