@@ -1,12 +1,17 @@
 package hello.springbootall.basic;
 
 import hello.springbootall.basic.service.BasicService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @SpringBootTest
@@ -22,12 +27,12 @@ public class TestAnything {
 
     @Test
     public void testtest() {
-        Double a = 127.1310583573;
-        Double b = 127.1310583574;
+        AtomicInteger atomicInteger = new AtomicInteger(4);
+    }
 
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(Double.compare(a, b));
-
+    @AllArgsConstructor
+    public class Car {
+        private String name;
+        private int age;
     }
 }
