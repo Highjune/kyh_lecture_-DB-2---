@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Slf4j
@@ -33,10 +35,21 @@ public class BasicController {
     }
 
     @GetMapping("/test")
-    @ResponseBody
-    public ResponseEntity<ApiExceptionController.MemberDto> doSomething3() {
-
+    public ResponseEntity<Void> doSomething3() {
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping("/test2")
+    public ResponseEntity<ApiExceptionController.MemberDto> doSomething4(
+//            @RequestBody ApiExceptionController.MemberDto memberDto) {
+            ) {
+        ApiExceptionController.MemberDto memberDto = ApiExceptionController.MemberDto.builder()
+                .regDate(LocalDateTime.now())
+                .memberId(4)
+                .build();
+
+        log.info("memberDto = " + memberDto);
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
 }

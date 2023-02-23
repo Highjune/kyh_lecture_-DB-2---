@@ -1,38 +1,33 @@
 package hello.springbootall.basic;
 
-import hello.springbootall.basic.service.BasicService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import hello.springbootall.basic.controller.ApiExceptionController;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.pl.REGON;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
-@SpringBootTest
+@Slf4j
 public class TestAnything {
 
-    @Autowired
-    private BasicService basicService;
 
     @Test
     public void testAnything() {
-        this.basicService.doSomething2();
+        Car car = new Car();
+        log.info("car = " + car);
     }
 
-    @Test
-    public void testtest() {
-        AtomicInteger atomicInteger = new AtomicInteger(4);
-    }
+    @ToString
+    @NoArgsConstructor(force = true)
+//    @NoArgsConstructor
+    public static class Car {
 
-    @AllArgsConstructor
-    public class Car {
+        private Long id;
         private String name;
-        private int age;
+        private String description;
     }
+
 }
