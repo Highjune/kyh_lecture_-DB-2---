@@ -4,6 +4,7 @@ import hello.springbootall.basic.dto.RequestDto;
 import hello.springbootall.basic.service.BasicService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,14 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class BasicController {
 
+    @Value(value = "${june.name}")
+    private static String juneName;
+
     private final BasicService basicService;
+
+    public static void main(String[] args) {
+        log.info("juneName = " + juneName);
+    }
 
     @PostMapping("/delivery")
     public ResponseEntity<Void> doSomething(@Valid @RequestBody RequestDto.Member member) {

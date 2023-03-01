@@ -1,12 +1,15 @@
 package hello.springbootall.basic.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,7 +21,12 @@ import java.time.LocalDateTime;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
+//@TestPropertySource(locations = "classpath:/application-dev.yaml")
 class BasicControllerTest {
+
+    @Value(value = "${june.name}")
+    private String juneName;
 
     @Autowired
     private BasicController basicController;
@@ -27,6 +35,11 @@ class BasicControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    public void test0() {
+        log.info("juneName = " + juneName);
+    }
 
     @Test
     @DisplayName("첫 테스트 ")
