@@ -25,9 +25,6 @@ import java.time.LocalDateTime;
 //@TestPropertySource(locations = "classpath:/application-dev.yaml")
 class BasicControllerTest {
 
-    @Value(value = "${june.name}")
-    private String juneName;
-
     @Autowired
     private BasicController basicController;
     @Autowired
@@ -35,11 +32,6 @@ class BasicControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Test
-    public void test0() {
-        log.info("juneName = " + juneName);
-    }
 
     @Test
     @DisplayName("첫 테스트 ")
