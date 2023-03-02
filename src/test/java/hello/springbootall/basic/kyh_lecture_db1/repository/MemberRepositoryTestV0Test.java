@@ -1,7 +1,7 @@
 package hello.springbootall.basic.kyh_lecture_db1.repository;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
-import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryVO;
+import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV0;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 @Slf4j
-class MemberRepositoryTest {
+class MemberRepositoryTestV0Test {
 
-    MemberRepositoryVO repository = new MemberRepositoryVO();
+    MemberRepositoryV0 repository = new MemberRepositoryV0();
 
     @Test
     void crud() throws SQLException {
