@@ -1,14 +1,15 @@
 package hello.springbootall.basic.kyh_lecture_db1.service;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
-import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV1;
-import hello.springbootall.kyh_lecture_db1.service.MemberServiceV1;
+import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV3;
+import hello.springbootall.kyh_lecture_db1.service.MemberServiceV3_1;
+import hello.springbootall.kyh_lecture_db1.service.MemberServiceV3_2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
@@ -17,25 +18,23 @@ import static hello.springbootall.kyh_lecture_db1.connection.ConnectionConst.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * 기본 동작, 트랜잭션이 없어서 문제 발생
+ * 트랜잭션 - 트랜잭션 템플릿
  */
-public class MemberServiceV1Test {
+public class MemberServiceV3_2Test {
 
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";
     public static final String MEMBER_EX = "ex";
 
-    private MemberRepositoryV1 memberRepository;
-    private MemberServiceV1 memberService;
-
-    @Value(value = "${june.name}")
-    private String name;
+    private MemberRepositoryV3 memberRepository;
+    private MemberServiceV3_2 memberService;
 
     @BeforeEach
     void before() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-        memberRepository = new MemberRepositoryV1(dataSource);
-        memberService = new MemberServiceV1(memberRepository);
+        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD); // Hikari 써도 상관없음.
+        memberRepository = new MemberRepositoryV3(dataSource); // 주입
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource); // 추후에 new JpaTransactionManager()로 변경해도 됨.
+        memberService = new MemberServiceV3_2(transactionManager, memberRepository); // 주입
     }
 
     @AfterEach
@@ -80,13 +79,7 @@ public class MemberServiceV1Test {
         //then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
         Member findMemberB = memberRepository.findById(memberEx.getMemberId());
-        assertThat(findMemberA.getMoney()).isEqualTo(8000);
+        assertThat(findMemberA.getMoney()).isEqualTo(10000);
         assertThat(findMemberB.getMoney()).isEqualTo(10000);
-    }
-
-    @Test
-    void testproperties() {
-        System.out.println("-----------");
-        System.out.println(name);
     }
 }

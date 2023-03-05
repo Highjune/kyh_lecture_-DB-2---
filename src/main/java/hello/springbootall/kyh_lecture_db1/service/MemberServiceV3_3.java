@@ -1,38 +1,28 @@
 package hello.springbootall.kyh_lecture_db1.service;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
-import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV2;
 import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV3;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 트랜잭션 - 트랜잭션 매니저
+ * 트랜잭션 - @Transactional AOP
  */
 @Slf4j
-@RequiredArgsConstructor
-public class MemberServiceV3_1 {
+public class MemberServiceV3_3 {
 
-    private final PlatformTransactionManager transactionManager;
     private final MemberRepositoryV3 memberRepository;
 
+    public MemberServiceV3_3(MemberRepositoryV3 memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    @Transactional
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-        try {
-            // 비즈니스 로직
-            bizLogic(fromId, toId, money);
-            transactionManager.commit(status); // 성공시 커밋
-        } catch (Exception e) {
-            transactionManager.rollback(status); // 실패시 롤백
-            throw new IllegalStateException(e);
-        }
+        bizLogic(fromId, toId, money);
     }
 
     private void bizLogic(String fromId, String toId, int money) throws SQLException {
@@ -49,4 +39,5 @@ public class MemberServiceV3_1 {
             throw new IllegalStateException("이체중 예외 발생");
         }
     }
+
 }
