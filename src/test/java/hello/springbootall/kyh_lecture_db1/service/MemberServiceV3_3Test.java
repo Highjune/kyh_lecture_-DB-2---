@@ -1,40 +1,64 @@
-package hello.springbootall.basic.kyh_lecture_db1.service;
+package hello.springbootall.kyh_lecture_db1.service;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
 import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV3;
-import hello.springbootall.kyh_lecture_db1.service.MemberServiceV3_1;
-import hello.springbootall.kyh_lecture_db1.service.MemberServiceV3_2;
+import hello.springbootall.kyh_lecture_db1.service.MemberServiceV3_3;
+import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static hello.springbootall.kyh_lecture_db1.connection.ConnectionConst.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * 트랜잭션 - 트랜잭션 템플릿
+ * 트랜잭션 - @Transactional AOP
  */
-public class MemberServiceV3_2Test {
+@Slf4j
+@SpringBootTest
+public class MemberServiceV3_3Test {
 
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";
     public static final String MEMBER_EX = "ex";
 
+    @Autowired
     private MemberRepositoryV3 memberRepository;
-    private MemberServiceV3_2 memberService;
+    @Autowired
+    private MemberServiceV3_3 memberService;
 
-    @BeforeEach
-    void before() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD); // Hikari 써도 상관없음.
-        memberRepository = new MemberRepositoryV3(dataSource); // 주입
-        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource); // 추후에 new JpaTransactionManager()로 변경해도 됨.
-        memberService = new MemberServiceV3_2(transactionManager, memberRepository); // 주입
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        DataSource dataSource() {
+            return new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+        }
+        @Bean
+        PlatformTransactionManager transactionManager() {
+            return new DataSourceTransactionManager(dataSource());
+        }
+        @Bean
+        MemberRepositoryV3 memberRepositoryV3() {
+            return new MemberRepositoryV3(dataSource());
+        }
+        @Bean
+        MemberServiceV3_3 memberServiceV3_3() {
+            return new MemberServiceV3_3(memberRepositoryV3());
+        }
+
     }
 
     @AfterEach
@@ -42,6 +66,14 @@ public class MemberServiceV3_2Test {
         memberRepository.delete(MEMBER_A);
         memberRepository.delete(MEMBER_B);
         memberRepository.delete(MEMBER_EX);
+    }
+
+    @Test
+    void AopCheck() {
+        log.info("memberService class={}", memberService.getClass());
+        log.info("memberRepository class={}", memberRepository.getClass());
+        Assertions.assertThat(AopUtils.isAopProxy(memberService)).isTrue();
+        Assertions.assertThat(AopUtils.isAopProxy(memberRepository)).isFalse();
     }
 
     @Test

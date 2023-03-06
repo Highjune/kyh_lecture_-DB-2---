@@ -1,4 +1,4 @@
-package hello.springbootall.basic.kyh_lecture_db1.connection;
+package hello.springbootall.kyh_lecture_db1.connection;
 
 import hello.springbootall.kyh_lecture_db1.connection.DBConnectionUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -21,14 +21,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class BasicController {
 
-    @Value(value = "${june.name}")
-    private static String juneName;
-
     private final BasicService basicService;
-
-    public static void main(String[] args) {
-        log.info("juneName = " + juneName);
-    }
 
     @PostMapping("/delivery")
     public ResponseEntity<Void> doSomething(@Valid @RequestBody RequestDto.Member member) {

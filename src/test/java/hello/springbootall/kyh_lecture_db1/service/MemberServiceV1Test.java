@@ -1,4 +1,4 @@
-package hello.springbootall.basic.kyh_lecture_db1.service;
+package hello.springbootall.kyh_lecture_db1.service;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
 import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV1;
@@ -27,9 +27,6 @@ public class MemberServiceV1Test {
 
     private MemberRepositoryV1 memberRepository;
     private MemberServiceV1 memberService;
-
-    @Value(value = "${june.name}")
-    private String name;
 
     @BeforeEach
     void before() {
@@ -84,9 +81,4 @@ public class MemberServiceV1Test {
         assertThat(findMemberB.getMoney()).isEqualTo(10000);
     }
 
-    @Test
-    void testproperties() {
-        System.out.println("-----------");
-        System.out.println(name);
-    }
 }

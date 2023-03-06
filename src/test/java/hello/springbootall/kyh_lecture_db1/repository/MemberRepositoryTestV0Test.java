@@ -1,38 +1,18 @@
-package hello.springbootall.basic.kyh_lecture_db1.repository;
+package hello.springbootall.kyh_lecture_db1.repository;
 
-import com.zaxxer.hikari.HikariDataSource;
 import hello.springbootall.kyh_lecture_db1.domain.Member;
-import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV1;
+import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV0;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-import static hello.springbootall.kyh_lecture_db1.connection.ConnectionConst.*;
-
 @Slf4j
-class MemberRepositoryTestV1Test {
+class MemberRepositoryTestV0Test {
 
-    MemberRepositoryV1 repository;
-
-    @BeforeEach
-    void beforeEach() {
-        // 1. 기본 DriverManager - 항상 새로운 커넥션을 획득
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-//        repository = new MemberRepositoryV1(dataSource);
-
-        // 2. 커넥션 풀링
-        HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(URL);
-        dataSource.setUsername(USERNAME);
-        dataSource.setPassword(PASSWORD);
-        repository = new MemberRepositoryV1(dataSource);
-    }
-
+    MemberRepositoryV0 repository = new MemberRepositoryV0();
 
     @Test
     void crud() throws SQLException {
@@ -57,10 +37,5 @@ class MemberRepositoryTestV1Test {
         Assertions.assertThatThrownBy(() -> repository.findById(member.getMemberId()))
                 .isInstanceOf(NoSuchElementException.class);
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

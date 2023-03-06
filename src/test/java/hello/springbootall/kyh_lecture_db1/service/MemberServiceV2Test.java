@@ -1,4 +1,4 @@
-package hello.springbootall.basic.kyh_lecture_db1.service;
+package hello.springbootall.kyh_lecture_db1.service;
 
 import com.zaxxer.hikari.HikariDataSource;
 import hello.springbootall.kyh_lecture_db1.domain.Member;
