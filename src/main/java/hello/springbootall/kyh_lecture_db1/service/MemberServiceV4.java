@@ -1,30 +1,32 @@
 package hello.springbootall.kyh_lecture_db1.service;
 
 import hello.springbootall.kyh_lecture_db1.domain.Member;
-import hello.springbootall.kyh_lecture_db1.repository.MemberRepositoryV3;
+import hello.springbootall.kyh_lecture_db1.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 
 /**
- * 트랜잭션 - @Transactional AOP
+ * 예외 누수 문제 해결
+ * SQLException 해결
+ *
+ * MemberRepository 인터페이스 의존
  */
 @Slf4j
-public class MemberServiceV3_3 {
+public class MemberServiceV4 {
 
-    private final MemberRepositoryV3 memberRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberServiceV3_3(MemberRepositoryV3 memberRepository) {
+    public MemberServiceV4(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     @Transactional
-    public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+    public void accountTransfer(String fromId, String toId, int money) {
         bizLogic(fromId, toId, money);
     }
 
-    private void bizLogic(String fromId, String toId, int money) throws SQLException {
+    private void bizLogic(String fromId, String toId, int money) {
         Member fromMember = memberRepository.findById(fromId);
         Member toMember = memberRepository.findById(toId);
 
